@@ -1,2 +1,7 @@
 from django.urls import path
-urlpatterns = []
+from . import views
+
+urlpatterns = [
+    path('api/', views.api_supplier_list, name='api_supplier_list'),
+]
+
