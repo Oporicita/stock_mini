@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-4">Transactions</h1>
+<a href="/transactions/add/" class="btn btn-success mb-3">+ Add Transaction</a>
+<table class="table table-bordered">
+    <thead><tr><th>ID</th><th>Date</th><th>Product</th><th>Type</th><th>Quantity</th><th>Actions</th></tr></thead>
+    <tbody>
+    {% for transaction in transactions %}
+    <tr>
+        <td>{{ transaction.id }}</td>
+        <td>{{ transaction.date|date:"d-m-Y" }}</td>
+        <td>{{ transaction.product.name }}</td>
+        <td>{% if transaction.transaction_type == 'in' %}<span class="badge bg-success">Stock In</span>{% else %}<span class="badge bg-danger">Stock Out</span>{% endif %}</td>
+        <td>{{ transaction.quantity }}</td>
+        <td><a href="/transactions/delete/{{ transaction.id }}/" class="btn btn-sm btn-danger">Delete</a></td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

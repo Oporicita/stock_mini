@@ -1,8 +1,57 @@
-<h1>Stock Management Dashboard</h1>
+{% extends 'base.html' %}
 
-<p>Total Products: {{ total_products }}</p>
-<p>Total Transactions: {{ total_transactions }}</p>
-<p>Low Stock Items: {{ low_stock }}</p>
-<p>Total Stock: {{ total_stock }}</p>
+{% block content %}
+<h1 class="mb-4">Dashboard</h1>
 
-<a href="/products/">Go to Products</a>
+<div class="row">
+    <div class="col-md-3">
+        <div class="stat-card blue">
+            <h5>Total Products</h5>
+            <h1>{{ total_products }}</h1>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card green">
+            <h5>Available Stock</h5>
+            <h1>{{ total_stock }}</h1>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card orange">
+            <h5>Low Stock</h5>
+            <h1>{{ low_stock }}</h1>
+        </div>
+    </div>
+    <div class="col-md-3">
+        <div class="stat-card purple">
+            <h5>Transactions</h5>
+            <h1>{{ total_transactions }}</h1>
+        </div>
+    </div>
+</div>
+
+{% if low_stock_items %}
+<div class="alert alert-danger mt-4" role="alert">
+    <h5>⚠️ Low Stock Alert!</h5>
+    <table class="table table-bordered mt-2">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Current Quantity</th>
+                <th>Threshold</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for item in low_stock_items %}
+        <tr>
+            <td>{{ item.product.name }}</td>
+            <td><span class="badge bg-danger">{{ item.quantity }}</span></td>
+            <td>{{ item.low_stock_threshold }}</td>
+        </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endif %}
+
+{% endblock %}

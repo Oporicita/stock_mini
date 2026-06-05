@@ -1,22 +1,32 @@
-from django.shortcuts import render
-from django.http import JsonResponse
-from django.views.decorators.csrf import csrf_exempt
-import json
+from django.shortcuts import render, get_object_or_404, redirect
 from .models import Supplier
 
-@csrf_exempt
-def api_supplier_list(request):
-    if request.method == 'GET':
-        suppliers = Supplier.objects.all()
-        data = list(suppliers.values('id', 'name', 'email', 'phone', 'address'))
-        return JsonResponse(data, safe=False)
+def supplier_list(request):
+    suppliers = Supplier.objects.all()
+    return render(request, 'suppliers/supplier_list.html', {'suppliers': suppliers})
 
+def supplier_add(request):
     if request.method == 'POST':
-        body = json.loads(request.body)
-        supplier = Supplier.objects.create(
-            name=body['name'],
-            email=body.get('email', ''),
-            phone=body.get('phone', ''),
-            address=body.get('address', '')
-        )
-        return JsonResponse({'id': supplier.id, 'message': 'Created'})
+        name = request.POST['name']
+        email = request.POST['email']
+        phone = request.POST['phone']
+        address = request.POST['address']
+        Supplier.objects.create(name=name, email=email, phone=phone, address=address)
+        return redirect('supplier_list')
+    return render(request, 'suppliers/supplier_form.html')
+
+def supplier_edit(request, pk):
+    supplier = get_object_or_404(Supplier, pk=pk)
+    if request.method == 'POST':
+        supplier.name = request.POST['name']
+        supplier.email = request.POST['email']
+        supplier.phone = request.POST['phone']
+        supplier.address = request.POST['address']
+        supplier.save()
+        return redirect('supplier_list')
+    return render(request, 'suppliers/supplier_form.html', {'supplier': supplier})
+
+def supplier_delete(request, pk):
+    supplier = get_object_or_404(Supplier, pk=pk)
+    supplier.delete()
+    return redirect('supplier_list')

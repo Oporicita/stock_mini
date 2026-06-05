@@ -1,16 +1,22 @@
-<h1>Products</h1>
-
-<a href="/products/add/">Add Product</a>
-
-<ul>
-{% for product in products %}
-<li>
-{{ product.name }} - {{ product.price }}
-
-<a href="/products/edit/{{product.id}}/">Edit</a>
-
-<a href="/products/delete/{{product.id}}/">Delete</a>
-
-</li>
-{% endfor %}
-</ul>
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-4">Products</h1>
+<a href="/products/add/" class="btn btn-success mb-3">+ Add Product</a>
+<table class="table table-bordered">
+    <thead><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Actions</th></tr></thead>
+    <tbody>
+    {% for product in products %}
+    <tr>
+        <td>{{ product.id }}</td>
+        <td>{{ product.name }}</td>
+        <td>{{ product.price }}</td>
+        <td>{{ product.quantity }}</td>
+        <td>
+            <a href="/products/edit/{{ product.id }}/" class="btn btn-sm btn-primary">Edit</a>
+            <a href="/products/delete/{{ product.id }}/" class="btn btn-sm btn-danger">Delete</a>
+        </td>
+    </tr>
+    {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

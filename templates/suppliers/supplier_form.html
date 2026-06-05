@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% block content %}
+<h1 class="mb-4">{% if supplier %}Edit{% else %}Add{% endif %} Supplier</h1>
+<form method="POST" style="background:white;padding:30px;border-radius:15px;">
+    {% csrf_token %}
+    <div class="mb-3"><label>Name</label><input type="text" name="name" value="{{ supplier.name }}" class="form-control" required></div>
+    <div class="mb-3"><label>Email</label><input type="email" name="email" value="{{ supplier.email }}" class="form-control"></div>
+    <div class="mb-3"><label>Phone</label><input type="text" name="phone" value="{{ supplier.phone }}" class="form-control"></div>
+    <div class="mb-3"><label>Address</label><textarea name="address" class="form-control">{{ supplier.address }}</textarea></div>
+    <button type="submit" class="btn btn-success">Save</button>
+    <a href="/suppliers/" class="btn btn-secondary">Cancel</a>
+</form>
+{% endblock %}
