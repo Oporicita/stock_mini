@@ -9,6 +9,7 @@ class Transaction(models.Model):
     product = models.ForeignKey(Product, on_delete=models.CASCADE)
     transaction_type = models.CharField(max_length=10, choices=TYPE_CHOICES)
     quantity = models.IntegerField()
+    amount = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     date = models.DateTimeField(auto_now_add=True)
     note = models.TextField(blank=True)
 

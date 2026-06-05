@@ -1,31 +1,75 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 class="mb-4">Reports</h1>
+<div class="page-header">
+    <h1>📈 Reports</h1>
+</div>
+
 <div class="row mb-4">
     <div class="col-md-4">
-        <div class="stat-card green">
-            <h5>Total Stock In</h5>
-            <h1>{{ total_stock_in }}</h1>
+        <div class="stat-card" style="border-left:4px solid #007070;">
+            <p style="font-size:12px;color:#888;margin:0 0 4px;">Total Stock In</p>
+            <h2 style="font-size:28px;font-weight:600;color:#007070;margin:0;">{{ total_stock_in }}</h2>
+            <p style="font-size:12px;color:#2e7d32;margin:4px 0 0;">⬆️ Units received</p>
         </div>
     </div>
     <div class="col-md-4">
-        <div class="stat-card orange">
-            <h5>Total Stock Out</h5>
-            <h1>{{ total_stock_out }}</h1>
+        <div class="stat-card" style="border-left:4px solid #c0392b;">
+            <p style="font-size:12px;color:#888;margin:0 0 4px;">Total Stock Out</p>
+            <h2 style="font-size:28px;font-weight:600;color:#c0392b;margin:0;">{{ total_stock_out }}</h2>
+            <p style="font-size:12px;color:#c0392b;margin:4px 0 0;">⬇️ Units dispatched</p>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card" style="border-left:4px solid #b07800;">
+            <p style="font-size:12px;color:#888;margin:0 0 4px;">Low Stock Items</p>
+            <h2 style="font-size:28px;font-weight:600;color:#b07800;margin:0;">{{ low_stock|length }}</h2>
+            <p style="font-size:12px;color:#b07800;margin:4px 0 0;">⚠️ Need restocking</p>
         </div>
     </div>
 </div>
-<h4>Low Stock Items</h4>
-<table class="table table-bordered">
-    <thead><tr><th>Product</th><th>Quantity</th><th>Threshold</th></tr></thead>
-    <tbody>
-    {% for item in low_stock %}
-    <tr>
-        <td>{{ item.product.name }}</td>
-        <td>{{ item.quantity }}</td>
-        <td>{{ item.low_stock_threshold }}</td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+
+<div class="stat-card mb-4">
+    <h5 style="font-size:14px;font-weight:600;color:#222;margin-bottom:14px;">⚠️ Low Stock Items</h5>
+    <table class="table">
+        <thead><tr><th>Product</th><th>Current Quantity</th><th>Threshold</th><th>Status</th></tr></thead>
+        <tbody>
+        {% for item in low_stock %}
+        <tr>
+            <td><strong>{{ item.product.name }}</strong></td>
+            <td><span style="background:#fdecea;color:#c0392b;padding:4px 10px;border-radius:20px;font-size:11px;">{{ item.quantity }}</span></td>
+            <td>{{ item.low_stock_threshold }}</td>
+            <td><span style="background:#fef3e0;color:#b07800;padding:4px 10px;border-radius:20px;font-size:11px;">⚠️ Restock Needed</span></td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" style="text-align:center;color:#888;padding:20px;">✅ All items are well stocked!</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<div class="stat-card">
+    <h5 style="font-size:14px;font-weight:600;color:#222;margin-bottom:14px;">💳 All Transactions</h5>
+    <table class="table">
+        <thead><tr><th>Date</th><th>Product</th><th>Type</th><th>Quantity</th><th>Note</th></tr></thead>
+        <tbody>
+        {% for t in transactions %}
+        <tr>
+            <td>{{ t.date|date:"d-m-Y" }}</td>
+            <td><strong>{{ t.product.name }}</strong></td>
+            <td>
+                {% if t.transaction_type == 'in' %}
+                <span class="badge-in">⬆️ Stock In</span>
+                {% else %}
+                <span class="badge-out">⬇️ Stock Out</span>
+                {% endif %}
+            </td>
+            <td>{{ t.quantity }}</td>
+            <td>{{ t.note|truncatechars:40 }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="5" style="text-align:center;color:#888;padding:20px;">No transactions yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
 {% endblock %}

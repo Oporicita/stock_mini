@@ -1,57 +1,136 @@
 {% extends 'base.html' %}
-
 {% block content %}
-<h1 class="mb-4">Dashboard</h1>
+<h1 style="font-size:20px;font-weight:600;color:#222;margin-bottom:20px;">Dashboard</h1>
 
 <div class="row">
     <div class="col-md-3">
-        <div class="stat-card blue">
-            <h5>Total Products</h5>
-            <h1>{{ total_products }}</h1>
+        <div class="stat-card">
+            <div style="width:38px;height:38px;border-radius:8px;background:#e3f0fb;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;">🗃️</div>
+            <p style="font-size:12px;color:#888;margin:0 0 4px;">Total Products</p>
+            <p style="font-size:26px;font-weight:600;color:#222;margin:0;">{{ total_products }}</p>
+            <p style="font-size:11px;color:#2e7d32;margin:4px 0 0;">Active items</p>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="stat-card green">
-            <h5>Available Stock</h5>
-            <h1>{{ total_stock }}</h1>
+        <div class="stat-card">
+            <div style="width:38px;height:38px;border-radius:8px;background:#e0f4f0;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;">📊</div>
+            <p style="font-size:12px;color:#888;margin:0 0 4px;">Available Stock</p>
+            <p style="font-size:26px;font-weight:600;color:#222;margin:0;">{{ total_stock }}</p>
+            <p style="font-size:11px;color:#2e7d32;margin:4px 0 0;">Total units</p>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="stat-card orange">
-            <h5>Low Stock</h5>
-            <h1>{{ low_stock }}</h1>
+        <div class="stat-card" style="{% if low_stock > 0 %}border:1.5px solid #e74c3c;{% endif %}">
+            <div style="width:38px;height:38px;border-radius:8px;background:#fef3e0;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;">⚠️</div>
+            <p style="font-size:12px;color:#888;margin:0 0 4px;">Low Stock</p>
+            <p style="font-size:26px;font-weight:600;color:{% if low_stock > 0 %}#c0392b{% else %}#222{% endif %};margin:0;">{{ low_stock }}</p>
+            <p style="font-size:11px;color:#c0392b;margin:4px 0 0;">{% if low_stock > 0 %}Needs attention{% else %}✅ All good{% endif %}</p>
         </div>
     </div>
     <div class="col-md-3">
-        <div class="stat-card purple">
-            <h5>Transactions</h5>
-            <h1>{{ total_transactions }}</h1>
+        <div class="stat-card">
+            <div style="width:38px;height:38px;border-radius:8px;background:#fdecea;display:flex;align-items:center;justify-content:center;font-size:18px;margin-bottom:10px;">💳</div>
+            <p style="font-size:12px;color:#888;margin:0 0 4px;">Transactions</p>
+            <p style="font-size:26px;font-weight:600;color:#222;margin:0;">{{ total_transactions }}</p>
+            <p style="font-size:11px;color:#2e7d32;margin:4px 0 0;">Total records</p>
         </div>
     </div>
 </div>
 
 {% if low_stock_items %}
-<div class="alert alert-danger mt-4" role="alert">
-    <h5>⚠️ Low Stock Alert!</h5>
-    <table class="table table-bordered mt-2">
-        <thead>
-            <tr>
-                <th>Product</th>
-                <th>Current Quantity</th>
-                <th>Threshold</th>
-            </tr>
-        </thead>
+<div style="background:white;border-radius:12px;border:2px solid #e74c3c;padding:20px;margin-top:10px;animation:pulse 2s infinite;">
+    <div style="display:flex;align-items:center;gap:10px;margin-bottom:14px;">
+        <div style="background:#e74c3c;border-radius:8px;padding:8px 12px;color:white;font-size:13px;font-weight:600;">🚨 LOW STOCK ALERT</div>
+        <span style="background:#fdecea;color:#c0392b;font-size:12px;padding:4px 10px;border-radius:20px;border:1px solid #e74c3c;">{{ low_stock }} item{{ low_stock|pluralize }} need restocking</span>
+    </div>
+    <table class="table" style="margin:0;">
+        <thead><tr><th>Product</th><th>Current Qty</th><th>Min Threshold</th><th>Status</th></tr></thead>
         <tbody>
         {% for item in low_stock_items %}
-        <tr>
-            <td>{{ item.product.name }}</td>
-            <td><span class="badge bg-danger">{{ item.quantity }}</span></td>
+        <tr style="background:#fff8f8;">
+            <td><strong>{{ item.product.name }}</strong></td>
+            <td><span style="background:#e74c3c;color:white;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;">{{ item.quantity }}</span></td>
             <td>{{ item.low_stock_threshold }}</td>
+            <td><span style="background:#fef3e0;color:#b07800;padding:4px 12px;border-radius:20px;font-size:11px;">⚠️ Restock Immediately</span></td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
 </div>
+<style>
+@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(231,76,60,0.4);}70%{box-shadow:0 0 0 10px rgba(231,76,60,0);}100%{box-shadow:0 0 0 0 rgba(231,76,60,0);}}
+</style>
 {% endif %}
 
+<div class="row mt-3">
+    <div class="col-md-8">
+        <div class="stat-card">
+            <h5 style="font-size:14px;font-weight:600;color:#222;margin-bottom:14px;">📊 Stock In vs Stock Out</h5>
+            <canvas id="barChart" height="120"></canvas>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="stat-card">
+            <h5 style="font-size:14px;font-weight:600;color:#222;margin-bottom:14px;">🥧 Transaction Split</h5>
+            <canvas id="doughnutChart" height="180"></canvas>
+        </div>
+    </div>
+</div>
+
+<div class="stat-card mt-3">
+    <h5 style="font-size:14px;font-weight:600;color:#222;margin-bottom:14px;">🕐 Recent Transactions</h5>
+    <table class="table">
+        <thead><tr><th>Product</th><th>Type</th><th>Quantity</th><th>Date</th></tr></thead>
+        <tbody>
+        {% for t in recent_transactions %}
+        <tr>
+            <td><strong>{{ t.product.name }}</strong></td>
+            <td>{% if t.transaction_type == 'in' %}<span class="badge-in">⬆️ Stock In</span>{% else %}<span class="badge-out">⬇️ Stock Out</span>{% endif %}</td>
+            <td>{{ t.quantity }}</td>
+            <td>{{ t.date|date:"d-m-Y" }}</td>
+        </tr>
+        {% empty %}
+        <tr><td colspan="4" style="text-align:center;color:#888;padding:20px;">No transactions yet.</td></tr>
+        {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+new Chart(document.getElementById('barChart'), {
+    type: 'bar',
+    data: {
+        labels: ['Stock In', 'Stock Out'],
+        datasets: [{
+            label: 'Units',
+            data: [{{ total_stock_in }}, {{ total_stock_out }}],
+            backgroundColor: ['rgba(0,112,112,0.8)', 'rgba(231,76,60,0.8)'],
+            borderRadius: 8,
+            borderSkipped: false,
+        }]
+    },
+    options: {
+        responsive: true,
+        plugins: { legend: { display: false } },
+        scales: { y: { beginAtZero: true, grid: { color: '#f0f0f0' } }, x: { grid: { display: false } } }
+    }
+});
+new Chart(document.getElementById('doughnutChart'), {
+    type: 'doughnut',
+    data: {
+        labels: ['Stock In', 'Stock Out'],
+        datasets: [{
+            data: [{{ total_stock_in }}, {{ total_stock_out }}],
+            backgroundColor: ['rgba(0,112,112,0.8)', 'rgba(231,76,60,0.8)'],
+            borderWidth: 0,
+        }]
+    },
+    options: {
+        responsive: true,
+        cutout: '65%',
+        plugins: { legend: { position: 'bottom', labels: { font: { size: 12 } } } }
+    }
+});
+</script>
 {% endblock %}

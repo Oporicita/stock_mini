@@ -1,22 +1,75 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<h1 class="mb-4">Products</h1>
-<a href="/products/add/" class="btn btn-success mb-3">+ Add Product</a>
-<table class="table table-bordered">
-    <thead><tr><th>ID</th><th>Name</th><th>Price</th><th>Quantity</th><th>Actions</th></tr></thead>
+
+<div class="d-flex justify-content-between mb-3">
+
+    <h2>Products</h2>
+
+    <button class="btn btn-success">
+        Add Product
+    </button>
+
+</div>
+
+<table class="table table-bordered table-hover bg-white">
+
+    <thead class="table-dark">
+
+        <tr>
+            <th>ID</th>
+            <th>Product Name</th>
+            <th>Category</th>
+            <th>Price</th>
+            <th>Action</th>
+        </tr>
+
+    </thead>
+
     <tbody>
-    {% for product in products %}
-    <tr>
-        <td>{{ product.id }}</td>
-        <td>{{ product.name }}</td>
-        <td>{{ product.price }}</td>
-        <td>{{ product.quantity }}</td>
-        <td>
-            <a href="/products/edit/{{ product.id }}/" class="btn btn-sm btn-primary">Edit</a>
-            <a href="/products/delete/{{ product.id }}/" class="btn btn-sm btn-danger">Delete</a>
-        </td>
-    </tr>
-    {% endfor %}
+
+        <tr>
+            <td>1</td>
+            <td>Laptop</td>
+            <td>Electronics</td>
+            <td>50000</td>
+
+            <td>
+
+                <button class="btn btn-warning btn-sm">
+                    Edit
+                </button>
+
+                <button class="btn btn-danger btn-sm">
+                    Delete
+                </button>
+
+            </td>
+
+        </tr>
+
+        <tr>
+            <td>2</td>
+            <td>Mouse</td>
+            <td>Accessories</td>
+            <td>500</td>
+
+            <td>
+
+                <button class="btn btn-warning btn-sm">
+                    Edit
+                </button>
+
+                <button class="btn btn-danger btn-sm">
+                    Delete
+                </button>
+
+            </td>
+
+        </tr>
+
     </tbody>
+
 </table>
+
 {% endblock %}

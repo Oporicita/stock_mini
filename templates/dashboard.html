@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1 class="mb-4">Dashboard</h1>
+
+<div class="row">
+
+    <div class="col-md-3">
+        <div class="stat-card blue">
+            <h5>Total Products</h5>
+            <h1>120</h1>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card green">
+            <h5>Available Stock</h5>
+            <h1>4500</h1>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card orange">
+            <h5>Low Stock</h5>
+            <h1>8</h1>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="stat-card purple">
+            <h5>Transactions</h5>
+            <h1>76</h1>
+        </div>
+    </div>
+
+</div>
+
+<br>
+
+<button class="btn-primary-custom">
+    New Transaction
+</button>
+
+{% endblock %}

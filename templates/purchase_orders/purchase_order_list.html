@@ -1,23 +1,96 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<h1 class="mb-4">Purchase Orders</h1>
-<a href="/purchase-orders/add/" class="btn btn-success mb-3">+ Add Order</a>
-<table class="table table-bordered">
-    <thead><tr><th>ID</th><th>Product</th><th>Supplier</th><th>Quantity</th><th>Status</th><th>Actions</th></tr></thead>
-    <tbody>
-    {% for order in orders %}
-    <tr>
-        <td>{{ order.id }}</td>
-        <td>{{ order.product.name }}</td>
-        <td>{{ order.supplier.name }}</td>
-        <td>{{ order.quantity }}</td>
-        <td>{{ order.status }}</td>
-        <td>
-            <a href="/purchase-orders/edit/{{ order.id }}/" class="btn btn-sm btn-primary">Edit</a>
-            <a href="/purchase-orders/delete/{{ order.id }}/" class="btn btn-sm btn-danger">Delete</a>
-        </td>
-    </tr>
-    {% endfor %}
-    </tbody>
-</table>
+
+<div class="d-flex justify-content-between align-items-center mb-4">
+
+    <h2>Purchase Orders</h2>
+
+    <button class="btn btn-success">
+        Create Purchase Order
+    </button>
+
+</div>
+
+<div class="card shadow-sm">
+
+    <div class="card-body">
+
+        <table class="table table-bordered table-hover">
+
+            <thead class="table-dark">
+
+                <tr>
+                    <th>PO ID</th>
+                    <th>Supplier</th>
+                    <th>Product</th>
+                    <th>Quantity</th>
+                    <th>Status</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>PO001</td>
+                    <td>ABC Traders</td>
+                    <td>Laptop</td>
+                    <td>10</td>
+
+                    <td>
+                        <span class="badge bg-success">
+                            Received
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-primary btn-sm">
+                            View
+                        </button>
+
+                        <button class="btn btn-warning btn-sm">
+                            Edit
+                        </button>
+
+                    </td>
+
+                </tr>
+
+                <tr>
+                    <td>PO002</td>
+                    <td>XYZ Enterprise</td>
+                    <td>Mouse</td>
+                    <td>50</td>
+
+                    <td>
+                        <span class="badge bg-warning text-dark">
+                            Pending
+                        </span>
+                    </td>
+
+                    <td>
+
+                        <button class="btn btn-primary btn-sm">
+                            View
+                        </button>
+
+                        <button class="btn btn-warning btn-sm">
+                            Edit
+                        </button>
+
+                    </td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
 {% endblock %}

@@ -1,17 +1,33 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 class="mb-4">{% if inventory %}Edit{% else %}Add{% endif %} Inventory</h1>
-<form method="POST" style="background:white;padding:30px;border-radius:15px;">
-    {% csrf_token %}
-    {% if not inventory %}
-    <div class="mb-3"><label>Product</label>
-    <select name="product" class="form-control">
-    {% for product in products %}<option value="{{ product.id }}">{{ product.name }}</option>{% endfor %}
-    </select></div>
-    {% endif %}
-    <div class="mb-3"><label>Quantity</label><input type="number" name="quantity" value="{{ inventory.quantity }}" class="form-control" required></div>
-    <div class="mb-3"><label>Low Stock Threshold</label><input type="number" name="low_stock_threshold" value="{{ inventory.low_stock_threshold }}" class="form-control" required></div>
-    <button type="submit" class="btn btn-success">Save</button>
-    <a href="/inventory/" class="btn btn-secondary">Cancel</a>
-</form>
+<div class="page-header">
+    <h1>{% if inventory %}✏️ Edit Inventory{% else %}➕ Add Inventory{% endif %}</h1>
+</div>
+<div class="form-card">
+    <form method="POST">
+        {% csrf_token %}
+        {% if not inventory %}
+        <div class="mb-3">
+            <label class="form-label">Product</label>
+            <select name="product" class="form-control">
+            {% for product in products %}
+            <option value="{{ product.id }}">{{ product.name }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        {% endif %}
+        <div class="mb-3">
+            <label class="form-label">Quantity</label>
+            <input type="number" name="quantity" value="{{ inventory.quantity }}" class="form-control" placeholder="0" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Low Stock Threshold</label>
+            <input type="number" name="low_stock_threshold" value="{{ inventory.low_stock_threshold }}" class="form-control" placeholder="10" required>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="btn-save">💾 Save Inventory</button>
+            <a href="/inventory/" class="btn-cancel">Cancel</a>
+        </div>
+    </form>
+</div>
 {% endblock %}

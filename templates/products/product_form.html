@@ -1,25 +1,31 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 class="mb-4">{% if product %}Edit{% else %}Add{% endif %} Product</h1>
-<form method="POST" style="background:white;padding:30px;border-radius:15px;">
-    {% csrf_token %}
-    <div class="mb-3">
-        <label>Name</label>
-        <input type="text" name="name" value="{{ product.name }}" class="form-control" required>
-    </div>
-    <div class="mb-3">
-        <label>Description</label>
-        <textarea name="description" class="form-control">{{ product.description }}</textarea>
-    </div>
-    <div class="mb-3">
-        <label>Price</label>
-        <input type="number" name="price" value="{{ product.price }}" class="form-control" step="0.01" required>
-    </div>
-    <div class="mb-3">
-        <label>Quantity</label>
-        <input type="number" name="quantity" value="{{ product.quantity }}" class="form-control" required>
-    </div>
-    <button type="submit" class="btn btn-success">Save</button>
-    <a href="/products/" class="btn btn-secondary">Cancel</a>
-</form>
+<div class="page-header">
+    <h1>{% if product %}✏️ Edit Product{% else %}➕ Add Product{% endif %}</h1>
+</div>
+<div class="form-card">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Product Name</label>
+            <input type="text" name="name" value="{{ product.name }}" class="form-control" placeholder="e.g. Laptop" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea name="description" class="form-control" rows="3" placeholder="Optional description">{{ product.description }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Price ($)</label>
+            <input type="number" name="price" value="{{ product.price }}" class="form-control" step="0.01" placeholder="0.00" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Quantity</label>
+            <input type="number" name="quantity" value="{{ product.quantity }}" class="form-control" placeholder="0" required>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="btn-save">💾 Save Product</button>
+            <a href="/products/" class="btn-cancel">Cancel</a>
+        </div>
+    </form>
+</div>
 {% endblock %}

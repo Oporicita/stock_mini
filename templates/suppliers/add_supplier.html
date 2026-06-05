@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Add Supplier</h1>
+
+<form>
+
+    <div class="mb-3">
+        <label>Supplier Name</label>
+        <input type="text" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>Phone Number</label>
+        <input type="text" class="form-control">
+    </div>
+
+    <div class="mb-3">
+        <label>Address</label>
+        <textarea class="form-control"></textarea>
+    </div>
+
+    <button class="btn btn-success">
+        Save Supplier
+    </button>
+
+</form>
+
+{% endblock %}

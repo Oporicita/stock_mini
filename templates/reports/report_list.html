@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2 class="mb-4">Reports</h2>
+
+<div class="row">
+
+    <div class="col-md-4 mb-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h5>Total Products</h5>
+
+                <h2>120</h2>
+
+                <button class="btn btn-primary mt-2">
+                    Download PDF
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4 mb-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h5>Total Suppliers</h5>
+
+                <h2>35</h2>
+
+                <button class="btn btn-success mt-2">
+                    Download Excel
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="col-md-4 mb-4">
+
+        <div class="card shadow-sm">
+
+            <div class="card-body">
+
+                <h5>Total Transactions</h5>
+
+                <h2>560</h2>
+
+                <button class="btn btn-dark mt-2">
+                    View Report
+                </button>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card shadow-sm">
+
+    <div class="card-body">
+
+        <h4>Available Reports</h4>
+
+        <table class="table table-bordered mt-3">
+
+            <thead class="table-dark">
+
+                <tr>
+                    <th>Report Name</th>
+                    <th>Type</th>
+                    <th>Action</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr>
+                    <td>Inventory Report</td>
+                    <td>PDF</td>
+
+                    <td>
+                        <button class="btn btn-primary btn-sm">
+                            Download
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Supplier Report</td>
+                    <td>Excel</td>
+
+                    <td>
+                        <button class="btn btn-success btn-sm">
+                            Download
+                        </button>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>Transaction Report</td>
+                    <td>PDF</td>
+
+                    <td>
+                        <button class="btn btn-primary btn-sm">
+                            Download
+                        </button>
+                    </td>
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

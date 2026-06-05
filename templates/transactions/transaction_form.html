@@ -1,20 +1,42 @@
 {% extends 'base.html' %}
 {% block content %}
-<h1 class="mb-4">Add Transaction</h1>
-<form method="POST" style="background:white;padding:30px;border-radius:15px;">
-    {% csrf_token %}
-    <div class="mb-3"><label>Product</label>
-    <select name="product" class="form-control">
-    {% for product in products %}<option value="{{ product.id }}">{{ product.name }}</option>{% endfor %}
-    </select></div>
-    <div class="mb-3"><label>Type</label>
-    <select name="transaction_type" class="form-control">
-        <option value="in">Stock In</option>
-        <option value="out">Stock Out</option>
-    </select></div>
-    <div class="mb-3"><label>Quantity</label><input type="number" name="quantity" class="form-control" required></div>
-    <div class="mb-3"><label>Note</label><textarea name="note" class="form-control"></textarea></div>
-    <button type="submit" class="btn btn-success">Save</button>
-    <a href="/transactions/" class="btn btn-secondary">Cancel</a>
-</form>
+<div class="page-header">
+    <h1>➕ Add Transaction</h1>
+</div>
+<div class="form-card">
+    <form method="POST">
+        {% csrf_token %}
+        <div class="mb-3">
+            <label class="form-label">Product</label>
+            <select name="product" class="form-control">
+            {% for product in products %}
+            <option value="{{ product.id }}">{{ product.name }}</option>
+            {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Transaction Type</label>
+            <select name="transaction_type" class="form-control">
+                <option value="in">⬆️ Stock In</option>
+                <option value="out">⬇️ Stock Out</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Quantity</label>
+            <input type="number" name="quantity" class="form-control" placeholder="0" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Amount ($)</label>
+            <input type="number" name="amount" class="form-control" step="0.01" placeholder="0.00" required>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Note (optional)</label>
+            <textarea name="note" class="form-control" rows="2" placeholder="Any notes..."></textarea>
+        </div>
+        <div style="display:flex;gap:10px;margin-top:20px;">
+            <button type="submit" class="btn-save">💾 Save Transaction</button>
+            <a href="/transactions/" class="btn-cancel">Cancel</a>
+        </div>
+    </form>
+</div>
 {% endblock %}
