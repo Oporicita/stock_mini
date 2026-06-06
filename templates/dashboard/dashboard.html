@@ -1,6 +1,7 @@
 {% extends 'base.html' %}
+
 {% block content %}
-<h1 style="font-size:20px;font-weight:600;color:#222;margin-bottom:20px;">Dashboard</h1>
+<h1 class="mb-4" style="font-size:20px;font-weight:600;color:#222;">Dashboard</h1>
 
 <div class="row">
     <div class="col-md-3">
@@ -51,28 +52,25 @@
             <td><strong>{{ item.product.name }}</strong></td>
             <td><span style="background:#e74c3c;color:white;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:600;">{{ item.quantity }}</span></td>
             <td>{{ item.low_stock_threshold }}</td>
-            <td><span style="background:#fef3e0;color:#b07800;padding:4px 12px;border-radius:20px;font-size:11px;">⚠️ Restock Immediately</span></td>
+            <td><span style="background:#fef3e0;color:#b07800;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:500;">⚠️ Restock Immediately</span></td>
         </tr>
         {% endfor %}
         </tbody>
     </table>
 </div>
-<style>
-@keyframes pulse{0%{box-shadow:0 0 0 0 rgba(231,76,60,0.4);}70%{box-shadow:0 0 0 10px rgba(231,76,60,0);}100%{box-shadow:0 0 0 0 rgba(231,76,60,0);}}
-</style>
 {% endif %}
 
 <div class="row mt-3">
-    <div class="col-md-8">
+    <div class="col-md-6">
         <div class="stat-card">
             <h5 style="font-size:14px;font-weight:600;color:#222;margin-bottom:14px;">📊 Stock In vs Stock Out</h5>
-            <canvas id="barChart" height="120"></canvas>
+            <canvas id="barChart" height="200"></canvas>
         </div>
     </div>
-    <div class="col-md-4">
+    <div class="col-md-6">
         <div class="stat-card">
             <h5 style="font-size:14px;font-weight:600;color:#222;margin-bottom:14px;">🥧 Transaction Split</h5>
-            <canvas id="doughnutChart" height="180"></canvas>
+            <canvas id="pieChart" height="200"></canvas>
         </div>
     </div>
 </div>
@@ -98,39 +96,55 @@
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 <script>
-new Chart(document.getElementById('barChart'), {
-    type: 'bar',
-    data: {
-        labels: ['Stock In', 'Stock Out'],
-        datasets: [{
-            label: 'Units',
-            data: [{{ total_stock_in }}, {{ total_stock_out }}],
-            backgroundColor: ['rgba(0,112,112,0.8)', 'rgba(231,76,60,0.8)'],
-            borderRadius: 8,
-            borderSkipped: false,
-        }]
-    },
-    options: {
-        responsive: true,
-        plugins: { legend: { display: false } },
-        scales: { y: { beginAtZero: true, grid: { color: '#f0f0f0' } }, x: { grid: { display: false } } }
-    }
-});
-new Chart(document.getElementById('doughnutChart'), {
-    type: 'doughnut',
-    data: {
-        labels: ['Stock In', 'Stock Out'],
-        datasets: [{
-            data: [{{ total_stock_in }}, {{ total_stock_out }}],
-            backgroundColor: ['rgba(0,112,112,0.8)', 'rgba(231,76,60,0.8)'],
-            borderWidth: 0,
-        }]
-    },
-    options: {
-        responsive: true,
-        cutout: '65%',
-        plugins: { legend: { position: 'bottom', labels: { font: { size: 12 } } } }
-    }
-});
+    var stockIn = {{ total_stock_in }};
+    var stockOut = {{ total_stock_out }};
+
+    new Chart(document.getElementById('barChart'), {
+        type: 'bar',
+        data: {
+            labels: ['Stock In', 'Stock Out'],
+            datasets: [{
+                data: [stockIn, stockOut],
+                backgroundColor: ['#007070', '#e74c3c'],
+                borderRadius: 8,
+                borderSkipped: false
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: { legend: { display: false } },
+            scales: {
+                x: { grid: { display: false } },
+                y: { grid: { color: '#f0f0f0' }, beginAtZero: true }
+            }
+        }
+    });
+
+    new Chart(document.getElementById('pieChart'), {
+        type: 'doughnut',
+        data: {
+            labels: ['Stock In', 'Stock Out'],
+            datasets: [{
+                data: [stockIn, stockOut],
+                backgroundColor: ['#007070', '#e74c3c'],
+                borderWidth: 0
+            }]
+        },
+        options: {
+            responsive: true,
+            plugins: {
+                legend: { position: 'bottom' }
+            },
+            cutout: '65%'
+        }
+    });
 </script>
+
+<style>
+@keyframes pulse {
+    0%{box-shadow:0 0 0 0 rgba(231,76,60,0.4);}
+    70%{box-shadow:0 0 0 10px rgba(231,76,60,0);}
+    100%{box-shadow:0 0 0 0 rgba(231,76,60,0);}
+}
+</style>
 {% endblock %}
