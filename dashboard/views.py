@@ -1,9 +1,10 @@
 from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
 from products.models import Product
 from transactions.models import Transaction
 from inventory.models import Inventory
-import json
 
+@login_required
 def dashboard(request):
     total_products = Product.objects.count()
     total_transactions = Transaction.objects.count()
@@ -11,8 +12,6 @@ def dashboard(request):
     low_stock = low_stock_items.count()
     total_stock = sum(i.quantity for i in Inventory.objects.all())
     recent_transactions = Transaction.objects.order_by('-date')[:5]
-    total_stock_in = sum(t.quantity for t in Transaction.objects.filter(transaction_type='in'))
-    total_stock_out = sum(t.quantity for t in Transaction.objects.filter(transaction_type='out'))
     context = {
         'total_products': total_products,
         'total_transactions': total_transactions,
@@ -20,7 +19,5 @@ def dashboard(request):
         'total_stock': total_stock,
         'low_stock_items': low_stock_items,
         'recent_transactions': recent_transactions,
-        'total_stock_in': total_stock_in,
-        'total_stock_out': total_stock_out,
     }
     return render(request, 'dashboard/dashboard.html', context)
