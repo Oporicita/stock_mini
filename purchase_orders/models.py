@@ -5,7 +5,9 @@ from products.models import Product
 class PurchaseOrder(models.Model):
     STATUS_CHOICES = [
         ('pending', 'Pending'),
+        ('approved', 'Approved'),
         ('received', 'Received'),
+        ('delivered', 'Delivered'),
         ('cancelled', 'Cancelled'),
     ]
     supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
