@@ -1,141 +1,79 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <title>Stock ERP System</title>
-
+    <title>Stock Management System</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
-
     <style>
-        body {
-            background: #f5f7fb;
-            font-family: system-ui, Arial;
-        }
-
-        /* SIDEBAR */
-        .sidebar {
-            width: 230px;
-            height: 100vh;
-            position: fixed;
-            background: #0f766e;
-            color: white;
-            padding: 15px 0;
-        }
-
-        .sidebar h4 {
-            padding: 10px 20px;
-            margin-bottom: 10px;
-        }
-
-        .sidebar a {
-            display: block;
-            padding: 10px 20px;
-            color: #e6fffb;
-            text-decoration: none;
-        }
-
-        .sidebar a:hover {
-            background: rgba(255,255,255,0.15);
-        }
-
-        .sidebar small {
-            padding: 10px 20px;
-            display: block;
-            opacity: 0.6;
-        }
-
-        /* MAIN */
-        .main {
-            margin-left: 230px;
-            padding: 20px;
-        }
-
-        /* TOP BAR */
-        .topbar {
-            background: white;
-            padding: 12px 20px;
-            border-radius: 10px;
-            margin-bottom: 20px;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-        }
-
-        /* CARDS */
-        .card-box {
-            background: white;
-            border-radius: 10px;
-            padding: 15px;
-            margin-bottom: 15px;
-        }
-
+        *{transition:background 0.2s,color 0.2s;}
+        body{background:#f4f6f8;font-family:'Segoe UI',sans-serif;margin:0;padding:0;}
+        .sidebar{height:100vh;background:#007070;color:white;position:fixed;width:220px;box-shadow:4px 0 15px rgba(0,0,0,0.1);}
+        .sidebar-logo{background:#005f5f;padding:18px 20px;display:flex;align-items:center;gap:10px;}
+        .sidebar-logo span{color:white;font-size:16px;font-weight:600;}
+        .sidebar-section{padding:10px 16px 4px;font-size:10px;color:rgba(255,255,255,0.45);letter-spacing:1px;text-transform:uppercase;}
+        .sidebar a{color:rgba(255,255,255,0.85);text-decoration:none;display:flex;align-items:center;gap:10px;padding:10px 14px;margin:2px 8px;border-radius:8px;font-size:13.5px;transition:all 0.2s;}
+        .sidebar a:hover{background:rgba(255,255,255,0.18);color:white;padding-left:18px;}
+        .main-content{margin-left:220px;padding:25px;animation:fadeIn 0.3s ease;}
+        @keyframes fadeIn{from{opacity:0;transform:translateY(8px);}to{opacity:1;transform:translateY(0);}}
+        .topbar{background:white;padding:14px 20px;border-radius:12px;border:0.5px solid #e0e0e0;margin-bottom:20px;display:flex;align-items:center;justify-content:space-between;}
+        .topbar h2{margin:0;color:#222;font-weight:600;font-size:16px;}
+        .topbar-badge{background:#e8f5f5;color:#007070;font-size:12px;padding:4px 12px;border-radius:20px;border:0.5px solid #b2dfdf;}
+        .stat-card{background:white;border-radius:12px;padding:18px;margin-bottom:16px;border:0.5px solid #e0e0e0;transition:transform 0.2s,box-shadow 0.2s;}
+        .stat-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.07);}
+        .page-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:20px;}
+        .page-header h1{font-size:20px;font-weight:600;color:#222;margin:0;}
+        /* ADD BUTTON */
+        .btn-teal{background:#007070;border:none;color:white;padding:9px 20px;border-radius:8px;font-size:13px;text-decoration:none;display:inline-flex;align-items:center;gap:6px;transition:all 0.2s;}
+        .btn-teal:hover{background:#005f5f;color:white;transform:translateY(-1px);box-shadow:0 4px 12px rgba(0,112,112,0.3);}
+        /* EDIT BUTTON */
+        .btn-edit{background:#e0f4f0;border:1px solid #007070;color:#007070;padding:5px 14px;border-radius:7px;font-size:12px;text-decoration:none;transition:all 0.2s;display:inline-block;}
+        .btn-edit:hover{background:#007070;color:white;}
+        /* DELETE BUTTON */
+        .btn-delete{background:#fdecea;border:1px solid #e74c3c;color:#e74c3c;padding:5px 14px;border-radius:7px;font-size:12px;text-decoration:none;transition:all 0.2s;display:inline-block;}
+        .btn-delete:hover{background:#e74c3c;color:white;}
+        /* SAVE BUTTON */
+        .btn-save{background:#007070;border:none;color:white;padding:10px 24px;border-radius:8px;font-size:13px;transition:all 0.2s;cursor:pointer;}
+        .btn-save:hover{background:#005f5f;transform:translateY(-1px);}
+        /* CANCEL BUTTON */
+        .btn-cancel{background:#f4f6f8;border:0.5px solid #ddd;color:#555;padding:10px 20px;border-radius:8px;font-size:13px;text-decoration:none;transition:all 0.2s;}
+        .btn-cancel:hover{background:#e8eaec;color:#333;}
         /* TABLE */
-        .table {
-            background: white;
-            border-radius: 10px;
-            overflow: hidden;
-        }
-
-        .table thead {
-            background: #e6fffb;
-        }
-
-        .table thead th {
-            color: #0f766e;
-        }
-
-        /* BUTTONS */
-        .btn-primary {
-            background: #0f766e;
-            border: none;
-        }
-
-        .btn-primary:hover {
-            background: #0b5e57;
-        }
-
-        .btn-warning, .btn-danger {
-            font-size: 13px;
-        }
+        .table{border-radius:12px;overflow:hidden;border:0.5px solid #e0e0e0;}
+        .table thead th{background:#f0fafa;color:#007070;font-weight:600;font-size:13px;border-bottom:1px solid #e0e0e0;padding:12px 16px;}
+        .table tbody td{font-size:13px;padding:11px 16px;vertical-align:middle;border-bottom:0.5px solid #f0f0f0;}
+        .table tbody tr{transition:background 0.15s;}
+        .table tbody tr:hover{background:#f8fdfd;}
+        /* FORM */
+        .form-card{background:white;padding:28px;border-radius:12px;border:0.5px solid #e0e0e0;max-width:600px;}
+        .form-label{font-size:13px;font-weight:500;color:#444;margin-bottom:4px;}
+        .form-control,.form-select{border-radius:8px;border:0.5px solid #ddd;font-size:13px;padding:9px 12px;transition:border 0.2s,box-shadow 0.2s;}
+        .form-control:focus,.form-select:focus{border-color:#007070;box-shadow:0 0 0 3px rgba(0,112,112,0.1);outline:none;}
+        /* BADGES */
+        .badge-in{background:#e0f4f0;color:#007070;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500;}
+        .badge-out{background:#fdecea;color:#c0392b;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:500;}
     </style>
 </head>
-
 <body>
-
-<!-- SIDEBAR -->
-<div class="sidebar">
-
-    <h4>📦 Stock ERP</h4>
-
-    <small>Main</small>
-    <a href="/">Dashboard</a>
-
-    <small>Management</small>
-    <a href="/products/">Products</a>
-    <a href="/suppliers/">Suppliers</a>
-    <a href="/inventory/">Inventory</a>
-
-    <small>Operations</small>
-    <a href="/transactions/">Transactions</a>
-    <a href="/purchase-orders/">Purchase Orders</a>
-    <a href="/reports/">Reports</a>
-
-    <small>System</small>
-    <a href="/admin/">Admin</a>
-
-</div>
-
-<!-- MAIN -->
-<div class="main">
-
-    <div class="topbar">
-        <h5 class="mb-0">Stock Management System</h5>
-        <span class="badge bg-success">System Online</span>
+    <div class="sidebar">
+        <div class="sidebar-logo">
+            <span>📦 Stock MS</span>
+        </div>
+        <div class="sidebar-section">Main</div>
+        <a href="/">🏠 Dashboard</a>
+        <a href="/products/">📦 Products</a>
+        <a href="/suppliers/">🚚 Suppliers</a>
+        <div class="sidebar-section">Stock</div>
+        <a href="/inventory/">📊 Inventory</a>
+        <a href="/purchase-orders/">🛒 Purchase Orders</a>
+        <div class="sidebar-section">Finance</div>
+        <a href="/transactions/">💳 Transactions</a>
+        <a href="/reports/">📈 Reports</a>
     </div>
-
-    {% block content %}
-    {% endblock %}
-
-</div>
-
+    <div class="main-content">
+        <div class="topbar">
+            <h2>Stock Management System</h2>
+            <span class="topbar-badge">✅ System Online</span>
+        </div>
+        {% block content %}{% endblock %}
+    </div>
 </body>
 </html>

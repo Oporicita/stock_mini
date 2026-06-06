@@ -7,15 +7,7 @@
 <div class="stat-card">
 <table class="table">
     <thead>
-        <tr>
-            <th>ID</th>
-            <th>Date</th>
-            <th>Product</th>
-            <th>Type</th>
-            <th>Quantity</th>
-            <th>Note</th>
-            <th>Actions</th>
-        </tr>
+        <tr><th>ID</th><th>Date</th><th>Product</th><th>Type</th><th>Quantity</th><th>Note</th><th>Actions</th></tr>
     </thead>
     <tbody>
     {% for transaction in transactions %}
@@ -25,15 +17,15 @@
         <td><strong>{{ transaction.product.name }}</strong></td>
         <td>
             {% if transaction.transaction_type == 'in' %}
-            <span class="badge bg-success">⬆️ Stock In</span>
+            <span class="badge-in">⬆️ Stock In</span>
             {% else %}
-            <span class="badge bg-danger">⬇️ Stock Out</span>
+            <span class="badge-out">⬇️ Stock Out</span>
             {% endif %}
         </td>
         <td>{{ transaction.quantity }}</td>
         <td>{{ transaction.note|truncatechars:30 }}</td>
         <td>
-            <a href="/transactions/delete/{{ transaction.id }}/" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+            <a href="/transactions/delete/{{ transaction.id }}/" class="btn-delete" onclick="return confirm('Are you sure?')">🗑️ Delete</a>
         </td>
     </tr>
     {% empty %}

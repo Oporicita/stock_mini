@@ -7,14 +7,7 @@
 <div class="stat-card">
 <table class="table">
     <thead>
-        <tr>
-            <th>ID</th>
-            <th>Product Name</th>
-            <th>Description</th>
-            <th>Price</th>
-            <th>Quantity</th>
-            <th>Actions</th>
-        </tr>
+        <tr><th>ID</th><th>Product Name</th><th>Description</th><th>Price</th><th>Quantity</th><th>Actions</th></tr>
     </thead>
     <tbody>
     {% for product in products %}
@@ -25,12 +18,12 @@
         <td>${{ product.price }}</td>
         <td>{{ product.quantity }}</td>
         <td>
-            <a href="/products/edit/{{ product.id }}/" class="btn btn-warning btn-sm">Edit</a>
-            <a href="/products/delete/{{ product.id }}/" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+            <a href="/products/edit/{{ product.id }}/" class="btn-edit">✏️ Edit</a>
+            <a href="/products/delete/{{ product.id }}/" class="btn-delete" onclick="return confirm('Are you sure?')">🗑️ Delete</a>
         </td>
     </tr>
     {% empty %}
-    <tr><td colspan="6" style="text-align:center;color:#888;padding:30px;">No products yet. Add your first product!</td></tr>
+    <tr><td colspan="6" style="text-align:center;color:#888;padding:30px;">No products yet.</td></tr>
     {% endfor %}
     </tbody>
 </table>

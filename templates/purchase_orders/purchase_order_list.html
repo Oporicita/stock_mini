@@ -2,20 +2,12 @@
 {% block content %}
 <div class="page-header">
     <h1>🛒 Purchase Orders</h1>
-    <a href="/purchase-orders/add/" class="btn-teal">+ Create Purchase Order</a>
+    <a href="/purchase-orders/add/" class="btn-teal">+ Create Order</a>
 </div>
 <div class="stat-card">
 <table class="table">
     <thead>
-        <tr>
-            <th>PO ID</th>
-            <th>Supplier</th>
-            <th>Product</th>
-            <th>Quantity</th>
-            <th>Status</th>
-            <th>Date</th>
-            <th>Actions</th>
-        </tr>
+        <tr><th>PO ID</th><th>Supplier</th><th>Product</th><th>Quantity</th><th>Status</th><th>Date</th><th>Actions</th></tr>
     </thead>
     <tbody>
     {% for order in orders %}
@@ -35,8 +27,8 @@
         </td>
         <td>{{ order.order_date|date:"d-m-Y" }}</td>
         <td>
-            <a href="/purchase-orders/edit/{{ order.id }}/" class="btn btn-warning btn-sm">Edit</a>
-            <a href="/purchase-orders/delete/{{ order.id }}/" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure?')">Delete</a>
+            <a href="/purchase-orders/edit/{{ order.id }}/" class="btn-edit">✏️ Edit</a>
+            <a href="/purchase-orders/delete/{{ order.id }}/" class="btn-delete" onclick="return confirm('Are you sure?')">🗑️ Delete</a>
         </td>
     </tr>
     {% empty %}
