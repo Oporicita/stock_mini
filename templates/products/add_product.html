@@ -4,7 +4,9 @@
 
 <h1>Add Product</h1>
 
-<form>
+<form method="POST">
+    {% csrf_token %}
+    {% csrf_token %}
 
     <div class="mb-3">
         <label>Product Name</label>
@@ -21,7 +23,7 @@
         <input type="number" class="form-control">
     </div>
 
-    <button class="btn btn-success">
+    <button type="submit" class="btn btn-success">
         Save Product
     </button>
 

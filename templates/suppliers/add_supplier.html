@@ -4,7 +4,9 @@
 
 <h1>Add Supplier</h1>
 
-<form>
+<form method="POST">
+    {% csrf_token %}
+    {% csrf_token %}
 
     <div class="mb-3">
         <label>Supplier Name</label>
@@ -21,7 +23,7 @@
         <textarea class="form-control"></textarea>
     </div>
 
-    <button class="btn btn-success">
+    <button type="submit" class="btn btn-success">
         Save Supplier
     </button>
 

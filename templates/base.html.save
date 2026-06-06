@@ -1,0 +1,25 @@
+k            background: #0b5e57;
+        }
+
+        .btn-warning, .btn-danger {
+            font-size: 13px;
+        }
+    </style>
+</head>
+
+<body>
+
+<!-- SIDEBAR -->
+<div class="sidebar">
+
+    <h4>📦 Stock ERP</h4>
+
+    <small>Main</small>
+    <a href="/">Dashboard</a>
+
+    <small>Management</small>
+    <a href="/products/">Products</a>
+    <a href="/suppliers/">Suppliers</a>
+    <a href="/inventory/">Inventory</a>
+
+    <small>Operations</small>
